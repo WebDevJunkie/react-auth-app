@@ -5,13 +5,7 @@ import ErrorsList from '../Errors/ErrorsList';
 class Register extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            email: '',
-            username: '',
-            password: '',
-            errors: {}
-        }
-
+        this.state = { email: '', username: '', password: '', errors: {} }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
@@ -23,7 +17,7 @@ class Register extends Component {
     onSubmit(e) {
         e.preventDefault();
         authService.register(this.state)
-            .then(data => data)
+            .then(data => this.props.history.push("/login"))
             .catch(error => this.setState({errors: error.response.data}));
     }
 

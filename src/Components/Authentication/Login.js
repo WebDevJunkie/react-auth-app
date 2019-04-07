@@ -22,7 +22,7 @@ class Login extends Component {
     onSubmit(e) {
         e.preventDefault();
         authService.login(this.state)
-            .then(data => console.log(data))
+            .then(data => this.props.history.push("/"))
             .catch(error => this.setState({errors: {'Login' : 'Incorrect username or password'}}));
     }
 

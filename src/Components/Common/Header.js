@@ -5,20 +5,22 @@ import authService from '../../services/authService';
 class Header extends Component {
     onLogout(e) {
         authService.logout();
-
     }
 
     render() {
         return (
             <nav className="navbar navbar-light bg-light">
-                <span className="navbar-brand mb-0 h1">Navbar</span>
+                <Link to="/" className="navbar-brand mb-0 h1">Navbar</Link>
                 {
                     localStorage.getItem('user') ?
-                    <Link to="/">Logout</Link>
+                    <div>
+                        <Link to="/" onClick={this.onLogout}>Logout</Link>|
+                        <Link to="/user">User</Link>
+                    </div>
                     :
                     <div>
-                    <Link to="/register">Register</Link>
-                    <Link to="/login">Login</Link>
+                        <Link to="/register">Register</Link>|
+                        <Link to="/login">Login</Link>
                     </div>
                 }
             </nav>
