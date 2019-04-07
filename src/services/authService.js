@@ -10,16 +10,31 @@ function register({username, email, password}) {
 function login({email, password}) {
     return axios.post(`${BASEURL}users/authenticate`, {email, password})
         .then(response => {
-            localStorage.setItem('user', response.data.token);
+            localStorage.setItem('user', JSON.stringify(response.data));
         });
+}
+
+function user() {
+    return axios.get(`${BASEURL}users/user`, authHeader())
+        .then(response => response.data);
 }
 
 function logout() {
     localStorage.removeItem('user');
 }
 
+function authHeader() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.token) {
+        return { headers: { "Authorization" : `Bearer ${user.token}` } };
+    } else {
+        return {};
+    }
+}
+
 export default {
     register,
     login,
-    logout
+    logout,
+    user
 }
