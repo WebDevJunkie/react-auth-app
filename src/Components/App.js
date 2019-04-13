@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import HomePage from './Common/HomePage';
 import UserPage from './Users/UserPage';
-import Register from './Authentication/Register';
-import Login from './Authentication/Login';
+import RegisterPage from './Authentication/RegisterPage';
+import LoginPage from './Authentication/LoginPage';
 import Header from './Common/Header';
 import PrivateRoute from './Common/PrivateRoute';
 
@@ -16,8 +16,8 @@ class App extends Component {
                     <br />
                     <div className="container">
                         <Route exact path="/" component={HomePage} />
-                        <Route path="/register" component={Register} />
-                        <Route path="/login" component={Login} />
+                        <Route path="/register" component={RegisterPage} />
+                        <Route path="/login" component={LoginPage} />
                         <PrivateRoute path="/user" component={UserPage} />
                     </div>
                 </div>
