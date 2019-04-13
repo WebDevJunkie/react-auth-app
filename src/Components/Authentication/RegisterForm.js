@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import authService from '../../services/authService';
-import ErrorsList from '../Errors/ErrorsList';
 
-class Register extends Component {
+class RegisterForm extends Component {
     constructor(props) {
         super(props);
-        this.state = { email: '', username: '', password: '', errors: {} }
+        this.state = { email: '', username: '', password: '' }
+
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
@@ -16,15 +17,22 @@ class Register extends Component {
 
     onSubmit(e) {
         e.preventDefault();
+        this.props.hasErrors({});
+        this.props.isLoading(true);
         authService.register(this.state)
-            .then(data => this.props.history.push("/login"))
-            .catch(error => this.setState({errors: error.response.data}));
+            .then(data => {
+                this.props.isLoading(false);
+                this.props.history.push("/login");
+            })
+            .catch(error => {
+                this.props.isLoading(false);
+                this.props.hasErrors(error.response.data);
+            });
     }
 
     render() {
         return (
             <div>
-                <ErrorsList errors={this.state.errors} />
                 <form onSubmit={this.onSubmit}>
                     <label>Email</label>
                     <input
@@ -55,4 +63,4 @@ class Register extends Component {
     }
 }
 
-export default Register;
+export default withRouter(RegisterForm);

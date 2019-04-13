@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import authService from '../../services/authService';
-import ErrorsList from '../Errors/ErrorsList';
 
-class Login extends Component {
+class LoginForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            email: '',
-            password: ''
-        }
+        this.state = {  email: '',  password: '' }
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -21,15 +17,22 @@ class Login extends Component {
 
     onSubmit(e) {
         e.preventDefault();
+        this.props.hasErrors({});
+        this.props.isLoading(true);
         authService.login(this.state)
-            .then(data => this.props.history.push("/"))
-            .catch(error => this.setState({errors: {'Login' : 'Incorrect username or password'}}));
+            .then(data => {
+                this.props.isLoading(false);
+                this.props.history.push("/");
+            })
+            .catch(error => {
+                this.props.isLoading(false);
+                this.props.hasErrors({'Login' : 'Incorrect username or password'});
+            });
     }
 
     render() {
         return (
             <div>
-                <ErrorsList errors={this.state.errors} />
                 <form onSubmit={this.onSubmit}>
                     <label>Email</label>
                     <input 
@@ -48,15 +51,10 @@ class Login extends Component {
                     <br />
                     <input type="submit" className="btn btn-success" />
                 </form>
-                {
-                    localStorage.getItem('user') ?
-                    <Redirect to="/" />
-                    :
-                    ""
-                }
+                { localStorage.getItem('user') ? <Redirect to="/" /> :  "" }
             </div>
         );
     }
 }
 
-export default Login;
+export default withRouter(LoginForm);
