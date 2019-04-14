@@ -1,3 +1,7 @@
+## Introduction
+
+This is a template to go along with my dotnet core auth API. This project uses the API and gives you register, login and logout functionality out of the box. I'll be adding new functionality feel free to comment or make some pull requests.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
